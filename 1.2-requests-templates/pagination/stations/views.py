@@ -5,25 +5,9 @@ import csv
 
 from pagination.settings import BUS_STATION_CSV
 
+
 def index(request):
     return redirect(reverse('bus_stations'))
-#
-# def bus_stations(request):
-#     page_number = request.GET.get('page', 1)
-#     stations_list = _get_stations_list()
-#     paginator = Paginator(stations_list, 10)
-#     page = paginator.get_page(page_number)
-#     context = {
-#         'page': page,
-#         'bus_stations': paginator,
-#     }
-#     return render(request, 'stations/index.html', context)
-
-
-        # print(row['Name'], row['Street'], row['District'])
-        # bus_station.setdefault('Name', []).append(row['Name'])
-        # bus_station.setdefault('Street', []).append(row['Street'])
-        # bus_station.setdefault('District', []).append(row['District'])
 
 
 def read_csv():
