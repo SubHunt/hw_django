@@ -11,6 +11,8 @@ __pycache__/
 env/
 venv/
 .venv/
+.venvdrf/
+3.1-drf-intro\smart_home\.venvdrf/
 
 ### Project specific ###
 settings_local.py
