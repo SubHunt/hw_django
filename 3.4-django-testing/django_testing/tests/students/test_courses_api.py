@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 from model_bakery import baker
-
+from django_testing.django_testing.wsgi import *
 from students.models import Student, Course
 
 @pytest.fixture
@@ -53,28 +53,25 @@ def test_create_list_courses(client, course_factory, student_factory):
 
 @pytest.mark.django_db
 def test_filter_id_courses(client, course_factory, student_factory):
+    # Создаем курсы через фабрику, передать ID одного курса в фильтр, проверить результат запроса с фильтром;
     courses = course_factory(_quantity=10)
-    course_id = courses[2].id
-
-    url = reverse('courses-detail', args=(course_id,))
-    response = client.get(url)
-
-    data = response.json()
+    course = courses[0]
+    response = client.get('/api/v1/courses/', data={'course_id': course.id})
 
     assert response.status_code == 200
-    assert data['name'] == courses[2].name
-
+    data = response.json()
+    assert data[0]['id'] == course.id
 
 @pytest.mark.django_db
 def test_filter_name_courses(client, course_factory, student_factory):
     students = student_factory(_quantity=10)
     courses = course_factory(_quantity=5)
-
     url = reverse('courses-list')
     response = client.get(url, {'name': courses[2].name})
-    data = response.json()
+
 
     assert response.status_code == 200
+    data = response.json()
     assert data[0]['name'] == courses[2].name
 
 
